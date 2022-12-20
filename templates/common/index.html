@@ -1,14 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>DigitalAdventures</title>
-
-</head>
-<body>
-    Don't have an account?
-    <div>
-        <a href="{% url 'user sign up' %}">Create one here</a>
-    </div>
-</body>
-</html>
+{% extends 'base/base.html' %}
+{% block page_content %}
+    This is where the posts will be, <i>I promise</i>
+{% endblock %}

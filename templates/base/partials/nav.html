@@ -1,0 +1,72 @@
+{% load static %}
+<nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <!-- Link to Home Page -->
+                <a href="{% url 'index' %}">
+                    <img width="175px" src="{%static '/images/logo-with-name.png'%}" alt="img1">
+                </a>
+
+                <!-- Link to Home Page -->
+{#                <a class="home" href="{% url 'index' %}">#}
+{#                    <i>digitalAdventures</i>#}
+{#                </a>#}
+            </div>
+
+            <div class="nav-links">
+                <ul class="nav-group">
+{#                    <li class="nav-item">#}
+{##}
+{#                        <!-- Link to Add Pet Page -->#}
+{#                        <a href="{% url 'add pet' %}">#}
+{#                            <i>Add Pet</i>#}
+{#                        </a>#}
+{#                    </li>#}
+{#                    <li class="nav-item">#}
+{##}
+{#                        <!-- Link to Add Photo Page -->#}
+{#                        <a href="{% url 'add photo' %}">#}
+{#                            <i>Add Photo</i>#}
+{#                        </a>#}
+{#                    </li>#}
+
+{#                    {% if request.user.is_authenticated %}#}
+
+                    <li class="nav-item">
+
+                        <!-- Link to Profile Page -->
+{#                        <a href="{% url 'details user' pk=request.user.pk %}">#}
+{#                            <i>Profile ({{ request.user }})</i>#}
+{#                        </a>#}
+                    </li>
+
+                        <li class="nav-item">
+
+                        <!-- Link to Profile Page -->
+{#                        <a href="{% url 'logout user' %}">#}
+{#                            <i>Log out</i>#}
+{#                        </a>#}
+                    </li>
+
+{#                    {% else %}#}
+
+                        <li class="nav-item">
+
+                        <!-- Link to Profile Page -->
+                        <a href="{% url 'user sign up' %}">
+                            <i>Sign Up</i>
+                        </a>
+                    </li>
+
+                        <li class="nav-item">
+
+                        <!-- Link to Profile Page -->
+{#                        <a href="{% url 'login user' %}">#}
+{#                            <i>Sign In</i>#}
+{#                        </a>#}
+                    </li>
+{#                    {% endif %}#}
+                </ul>
+            </div>
+        </div>
+    </nav>

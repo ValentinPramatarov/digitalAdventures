@@ -37,6 +37,9 @@ class Game(models.Model):
         blank=True,
     )
 
+    def __str__(self):
+        return self.name
+
 
 class Genre(models.Model):
     # TODO: Think of picture/banner implementation
@@ -57,6 +60,9 @@ class Genre(models.Model):
     )
 
     games = models.ManyToManyField(Game)
+
+    def __str__(self):
+        return self.name
 
 
 class Device(models.Model):
@@ -89,3 +95,6 @@ class Device(models.Model):
     )
 
     games = models.ManyToManyField(Game)
+
+    def __str__(self):
+        return self.name
