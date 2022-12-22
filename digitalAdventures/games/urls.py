@@ -1,8 +1,8 @@
 from django.urls import path, include
 
 from digitalAdventures.games.views import create_game, GameDetailsView, GameEditView, GameDeleteView, GenreAddView, \
-    GenreDeleteView, GenreEditView, GenreDetailsView, DeviceAddView, DeviceDetailsView, DeviceEditView, DeviceDeleteView
-
+    GenreDeleteView, GenreEditView, GenreDetailsView, DeviceAddView, DeviceDetailsView, DeviceEditView, \
+    DeviceDeleteView
 urlpatterns = (
     path('add/', create_game, name='game add'),
     path('<int:pk>/', include([
@@ -16,7 +16,7 @@ urlpatterns = (
         path('edit/', GenreEditView.as_view(), name='genre edit'),
         path('delete/', GenreDeleteView.as_view(), name='genre delete'),
     ])),
-    path('device/add/', DeviceAddView.as_view()),
+    path('device/add/', DeviceAddView.as_view(), name='device add'),
     path('devices/<int:pk>/', include([
         path('details/', DeviceDetailsView.as_view(), name='device details'),
         path('edit/', DeviceEditView.as_view(), name='device edit'),

@@ -1,0 +1,71 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block page_content %}
+    <div class="game-profile">
+        <!-- Start game Personal Data Section -->
+        <div class="profile">
+            {% if has_permissions %}
+                <div style="text-align: center">
+                    <a href="{% url 'genre edit' pk=object.pk %}">
+                        <u>Edit</u>
+                        {#                        <img class="edit-img" src="{% static 'images/edit-pen-icon-6.jpg' %}" alt="edit button">#}
+                    </a>
+                    <!-- game Delete Button -->
+                    <a href="{% url 'genre delete' pk=object.pk %}">
+                        <u>Delete</u>
+                        {#                        <img class="bin-img" src="{% static 'images/icon-remove-22.jpg' %}" alt="bin button">#}
+                    </a>
+                </div>
+            {% endif %}
+            <div class="profile-data">
+
+                <div class="personal">
+
+                    <div style="text-align: center;font-size: 24px">
+                        <!-- GENRE NAME -->
+                        <h1>
+                            <i><b>{{ object.name }}</b></i>
+                        </h1>
+
+                    </div>
+                    <div class="edit">
+                        <p>
+                            {{ object.description }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="game-posts">
+            {% if not games %}
+                <p>It seems no games have been added to this genre yet</p>
+            {% else %}
+                <div>
+                    <h2>
+                        Games in this genre:
+                    </h2>
+                    {% for game in games %}
+                        <div style="text-align: center">
+                            <p><a href="{% url 'game details' pk=game.pk %}"> {{ game.name }} </a></p>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    {#    <hr>#}
+    {#        <div>#}
+    {#            {% if not games %}#}
+    {#                <p>It seems no games have been added to this genre yet</p>#}
+    {#            {% else %}#}
+    {#                Games in this genre:#}
+    {#                {% for game in games %}#}
+    {#                    <p>{{ game.name }}</p>#}
+    {#                {% endfor %}#}
+    {#            {% endif %}#}
+    {#        </div>#}
+    {#    <hr>#}
+
+{% endblock %}

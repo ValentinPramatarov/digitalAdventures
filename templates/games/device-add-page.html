@@ -3,9 +3,9 @@
 
 
     <div class="edit-delete edit-photo">
-        <h2>Add game</h2>
+        <h2>Add device</h2>
 
-        <form action="{% url 'game add' %}" method="post" enctype="multipart/form-data">
+        <form action="{% url 'device add' %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <table>
                 {% for field in form %}

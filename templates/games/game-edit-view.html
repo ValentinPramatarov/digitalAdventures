@@ -1,19 +1,25 @@
 {% extends "base/base.html" %}
 {% block page_content %}
 
-    <!-- Start Edit Pet Section -->
+
     <div class="edit-delete edit-photo">
         <h2>Edit Game</h2>
-        <!-- Start Edit Pet From -->
-        <form action="{% url 'game edit' pk=object.pk %}" method="post">
-            {{ form.as_p }}
-            <!-- Edit Pet Button -->
-            <button class="edit-btn" type="submit">Edit</button>
+
+        <form method="post" action="{% url 'game edit' pk=object.pk %}" enctype="multipart/form-data">
+            Name: <p>{{ form.name }}</p>
+            Image URL: <p>{{ form.image }}</p>
+            Developer: <p>{{ form.developer }}</p>
+            Developer's site URL: <p>{{ form.developer_site_link }}</p>
+            Release date: <p>{{ form.release_date }}</p>
+            Synopsis: <p><textarea style="height: 200px; width: 500px;" name="description" rows="10"
+                                      cols="40">{{ form.synopsis.value }}</textarea></p>
+            Genre(s): <p>{{ form.genres }}</p>
+            Device(s): <p>{{ form.devices }}</p>
             {% csrf_token %}
+            <button class="edit-btn" type="submit">Edit</button>
         </form>
-        <!-- End Edit Pet Form -->
 
     </div>
-    <!-- End Edit Pet Section -->
+
 
 {% endblock %}

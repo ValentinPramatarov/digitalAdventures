@@ -6,6 +6,7 @@ from django.views import generic as views
 from django.contrib.auth import views as auth_views, get_user_model
 from django.urls import reverse_lazy
 
+from core.Mixins import AccountPermissionCheckMixin
 from digitalAdventures.accounts.forms import UserCreateForm, UserEditForm
 
 UserModel = get_user_model()
@@ -41,31 +42,19 @@ class UserDetailsView(views.DetailView, LoginRequiredMixin):
         return context
 
 
-class UserEditView(views.UpdateView):
+class UserEditView(AccountPermissionCheckMixin, views.UpdateView):
     template_name = 'accounts/user-edit-page.html'
     form_class = UserEditForm
     model = UserModel
     success_url = reverse_lazy('index')
 
     # Doesn't render view if logged-in user is not owner of account
-    def dispatch(self, request, *args, **kwargs):
-        obj = self.get_object()
-        if obj != request.user:
-            raise Http404("You are not the owner of this account.")
-        return super().dispatch(request, *args, **kwargs)
 
 
-class UserDeleteView(views.DeleteView):
+class UserDeleteView(AccountPermissionCheckMixin, views.DeleteView):
     model = UserModel
     success_url = reverse_lazy('index')
     template_name = 'accounts/user-delete-page.html'
-
-    # Confirm if logged-in user is the owner of the object:
-    def dispatch(self, request, *args, **kwargs):
-        obj = self.get_object()
-        if obj != request.user:
-            raise Http404("You are not the owner of this account.")
-        return super().dispatch(request, *args, **kwargs)
 
 
 # def add_profile_picture(request, pk):

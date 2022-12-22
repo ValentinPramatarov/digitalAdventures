@@ -63,12 +63,26 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                    <a href="{% url 'user sign in' %}">
+                        <a href="{% url 'user sign in' %}">
                             <i>Log In</i>
                         </a>
                     </li>
 
-                    {% else %}
+                {% else %}
+
+                    {% if user.is_superuser or user.is_staff %}
+                        <li class="nav-item">
+                            <a href="{% url 'genre add' %}">
+                                <i>Add Genre</i>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'device add' %}">
+                                <i>Add Device</i>
+                            </a>
+                        </li>
+                    {% endif %}
+
                     <li class="nav-item">
                         <a href="{% url 'game add' %}">
                             Add Game
@@ -76,16 +90,17 @@
                     </li>
 
                     <li class="nav-item">
-                        <a href="{% url 'user details' pk=user.pk%}">
+                        <a href="{% url 'user details' pk=user.pk %}">
                             Profile
                         </a>
                     </li>
+
                     <li class="nav-item">
                         <a href="{% url 'user sign out' %}">
                             <i>Log Out</i>
                         </a>
                     </li>
-                    {% endif %}
+                {% endif %}
 
 
                 {#                    {% endif %}#}

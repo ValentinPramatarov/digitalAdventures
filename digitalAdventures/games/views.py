@@ -1,9 +1,12 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import generic as views
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from digitalAdventures.games.forms import GameAddForm, GameEditForm
+from core.Mixins import GamePermissionCheckMixin, GenreDevicePermissionCheckMixin
+from digitalAdventures.games.forms import GameAddForm, GameEditForm, GenreAddForm, GenreEditForm, DeviceAddForm, \
+    DeviceEditForm
 from digitalAdventures.games.models import Game, Genre, Device
 
 
@@ -15,6 +18,7 @@ from digitalAdventures.games.models import Game, Genre, Device
 #         form.instance.added_by = self.request.user
 #         return super().form_valid(form)
 
+@login_required
 def create_game(request):
     if request.method == 'GET':
         form = GameAddForm()
@@ -52,51 +56,123 @@ class GameDetailsView(views.DetailView):
             has_permissions = True
 
         context['has_permissions'] = has_permissions
-        context['object_attributes'] = vars(self.object)
-        context['devices'] = self.object.device_set.all()
-        context['genres'] = self.object.genre_set.all()
+        context['devices'] = self.object.devices.all()
+        context['genres'] = self.object.genres.all()
 
         return context
 
 
-class GameEditView(views.UpdateView):
-    model = Game
-    form_class = GameEditForm
+class GameEditView(GamePermissionCheckMixin, views.UpdateView):
     template_name = 'games/game-edit-view.html'
+    form_class = GameEditForm
+    model = Game
+    success_url = reverse_lazy('index')
+
+    def form_valid(self, form):
+        self.object = form.save()
+        self.object.devices.set(form.cleaned_data['devices'])
+        self.object.genres.set(form.cleaned_data['genres'])
+        return redirect(self.get_success_url())
+
+
+# def game_edit_view(request, pk):
+#     obj = Game.objects.filter(pk=pk).get()
+#
+#     if request.method == "GET":
+#         form = GameEditForm(instance=obj)
+#     else:
+#         form = GameEditForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('game details', pk=pk)
+#
+#     context = {
+#         'form': form,
+#         'pk': pk,
+#     }
+#
+#     return render(request, 'games/game-edit-view.html', context)
+
+
+class GameDeleteView(GamePermissionCheckMixin, views.DeleteView):
+    model = Game
+    success_url = reverse_lazy('index')
+    template_name = 'games/game-delete-page.html'
+
+
+class GenreAddView(LoginRequiredMixin, GenreDevicePermissionCheckMixin, views.CreateView):
+    model = Genre
+    form_class = GenreAddForm
+    template_name = 'games/genre-add-page.html'
     success_url = reverse_lazy('index')
 
 
-class GameDeleteView(views.DeleteView):
-    pass
-
-
-class GenreAddView(views.CreateView):
+class GenreDetailsView(views.DetailView):
     model = Genre
+    template_name = 'games/genre-details-page.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        has_permissions = False
+
+        if self.request.user.is_staff or self.request.user.is_superuser:
+            has_permissions = True
+
+        context['has_permissions'] = has_permissions
+        context['games'] = self.object.games.all()
+
+        return context
 
 
-class GenreDetailsView(views.CreateView):
+class GenreEditView(LoginRequiredMixin, GenreDevicePermissionCheckMixin, views.UpdateView):
     model = Genre
+    template_name = 'games/genre-edit-page.html'
+    form_class = GenreEditForm
+    success_url = reverse_lazy('index')
 
 
-class GenreEditView(views.UpdateView):
+class GenreDeleteView(LoginRequiredMixin, GenreDevicePermissionCheckMixin, views.DeleteView):
     model = Genre
+    success_url = reverse_lazy('index')
+    template_name = 'games/genre-delete-page.html'
 
 
-class GenreDeleteView(views.DeleteView):
-    model = Genre
-
-
-class DeviceAddView(views.CreateView):
+class DeviceAddView(LoginRequiredMixin, GenreDevicePermissionCheckMixin, views.CreateView):
     model = Device
+    form_class = DeviceAddForm
+    template_name = 'games/device-add-page.html'
+    success_url = reverse_lazy('index')
+
+    # TODO: Fix release_date, currently not displaying as widget
 
 
 class DeviceDetailsView(views.DetailView):
     model = Device
+    template_name = 'games/device-details-page.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        has_permissions = False
+
+        if self.request.user.is_staff or self.request.user.is_superuser:
+            has_permissions = True
+
+        context['has_permissions'] = has_permissions
+        context['games'] = self.object.games.all()
+
+        return context
 
 
-class DeviceEditView(views.UpdateView):
+class DeviceEditView(LoginRequiredMixin, GenreDevicePermissionCheckMixin, views.UpdateView):
     model = Device
+    template_name = 'games/device-edit-page.html'
+    form_class = DeviceEditForm
+    success_url = reverse_lazy('index')
 
 
-class DeviceDeleteView(views.DeleteView):
+class DeviceDeleteView(LoginRequiredMixin, GenreDevicePermissionCheckMixin, views.DeleteView):
     model = Device
+    success_url = reverse_lazy('index')
+    template_name = 'games/device-delete-page.html'

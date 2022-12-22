@@ -48,7 +48,9 @@ class Game(models.Model):
     )
 
     added_by = models.ForeignKey(
-        UserModel, on_delete=models.RESTRICT
+        UserModel, on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
     )
 
     def __str__(self):
@@ -64,6 +66,7 @@ class Genre(models.Model):
         max_length=GENRE_NAME_MAX_LEN,
         blank=False,
         null=False,
+        unique=True,
         verbose_name="Genre name"
     )
 
@@ -71,9 +74,10 @@ class Genre(models.Model):
         max_length=DESCRIPTION_MAX_LEN,
         blank=False,
         null=False,
+        unique=True,
     )
 
-    games = models.ManyToManyField(Game)
+    games = models.ManyToManyField(Game, related_name='genres')
 
     def __str__(self):
         return self.name
@@ -87,6 +91,7 @@ class Device(models.Model):
         max_length=DEVICE_NAME_MAX_LEN,
         blank=False,
         null=False,
+        unique=True,
         verbose_name='Device name'
     )
 
@@ -108,7 +113,7 @@ class Device(models.Model):
         blank=False,
     )
 
-    games = models.ManyToManyField(Game)
+    games = models.ManyToManyField(Game, related_name='devices')
 
     def __str__(self):
         return self.name

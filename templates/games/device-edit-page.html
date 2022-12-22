@@ -1,0 +1,20 @@
+{% extends "base/base.html" %}
+{% block page_content %}
+
+
+    <div class="edit-delete edit-photo">
+        <h2>Edit Device</h2>
+
+        <form method="post" action="{% url 'device edit' pk=object.pk %}" enctype="multipart/form-data">
+            Name: <p>{{ form.name }}</p>
+            Maker: <p>{{ form.maker }}</p>
+            Image URL: <p>{{ form.image }}</p>
+            Release Date: <p>{{ form.release_date }}</p>
+            {% csrf_token %}
+            <button class="edit-btn" type="submit">Edit</button>
+        </form>
+
+    </div>
+
+
+{% endblock %}

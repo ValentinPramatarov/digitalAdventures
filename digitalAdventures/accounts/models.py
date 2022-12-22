@@ -62,21 +62,21 @@ class AppUser(auth_models.AbstractUser):
 
     favourite_game = models.ForeignKey(
         Game,
-        on_delete=models.RESTRICT,
+        on_delete=models.SET_NULL,
         null=True,
         blank=True,
     )
 
     main_device = models.ForeignKey(
         Device,
-        on_delete=models.RESTRICT,
+        on_delete=models.SET_NULL,
         null=True,
         blank=True,
     )
 
     favourite_genre = models.ForeignKey(
         Genre,
-        on_delete=models.RESTRICT,
+        on_delete=models.SET_NULL,
         null=True,
         blank=True,
     )
