@@ -1,0 +1,19 @@
+{% extends "base/base.html" %}
+{% block page_content %}
+
+    <!-- Start Edit Pet Section -->
+    <div class="edit-delete edit-photo">
+        <h2>Edit Game</h2>
+        <!-- Start Edit Pet From -->
+        <form action="{% url 'game edit' pk=object.pk %}" method="post">
+            {{ form.as_p }}
+            <!-- Edit Pet Button -->
+            <button class="edit-btn" type="submit">Edit</button>
+            {% csrf_token %}
+        </form>
+        <!-- End Edit Pet Form -->
+
+    </div>
+    <!-- End Edit Pet Section -->
+
+{% endblock %}

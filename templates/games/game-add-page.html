@@ -1,0 +1,31 @@
+{% extends "base/base.html" %}
+{% block page_content %}
+
+
+    <!-- Start Add game Section-->
+    <div class="edit-delete edit-photo">
+        <h2>Add game</h2>
+
+        <!-- Start Add game Form -->
+        <form action="{% url 'game add' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <table>
+                {% for field in form %}
+                    <tr>
+                        <td>{{ field.label }}</td>
+                        <td>
+                            <div style="display: inline-block">
+                                {{ field }}
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+            <button class="add-btn" type="submit">Submit</button>
+        </form>
+        <!-- End Add game Form -->
+
+    </div>
+    <!-- End Add game Section -->
+
+{% endblock %}

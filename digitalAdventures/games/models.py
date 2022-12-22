@@ -1,5 +1,10 @@
 from django.db import models
 
+import digitalAdventures.settings
+
+# UserModel is defined this way to escape circular import
+UserModel = digitalAdventures.settings.AUTH_USER_MODEL
+
 
 class Game(models.Model):
     GAME_NAME_MAX_LEN = 45
@@ -26,6 +31,11 @@ class Game(models.Model):
         verbose_name="Developer name"
     )
 
+    developer_site_link = models.URLField(
+        null=True,
+        blank=True,
+    )
+
     release_date = models.DateField(
         null=False,
         blank=False,
@@ -35,6 +45,10 @@ class Game(models.Model):
         max_length=SYNOPSIS_MAX_LEN,
         null=True,
         blank=True,
+    )
+
+    added_by = models.ForeignKey(
+        UserModel, on_delete=models.RESTRICT
     )
 
     def __str__(self):

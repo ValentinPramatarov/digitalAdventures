@@ -49,12 +49,9 @@ class AppUser(auth_models.AbstractUser):
         null=True,
     )
 
-    profile_picture = models.ImageField(
-        upload_to='user_photos/',
-        null=False,
+    profile_picture = models.URLField(
         blank=True,
-        validators=(validate_file_less_than_5mb,)
-        # TODO: if not provided during account creation, use default picture also located in media files/user_photos
+        null=True,
     )
 
     description = models.TextField(

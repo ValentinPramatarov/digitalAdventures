@@ -1,3 +1,8 @@
+.whitespace-div {
+    height: 200px;
+    /*width: 100%;*/
+}
+
 .profile {
     margin: 140px 35% 0 38%;
 }

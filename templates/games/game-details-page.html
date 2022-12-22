@@ -1,0 +1,101 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block page_content %}
+    <div class="game-profile">
+        <!-- Start game Personal Data Section -->
+        <div class="profile">
+            {% if has_permissions %}
+                <div class="personal">
+                    <a href="{% url 'game edit' pk=object.pk %}">
+                        <u>Edit</u>
+                        {#                        <img class="edit-img" src="{% static 'images/edit-pen-icon-6.jpg' %}" alt="edit button">#}
+                    </a>
+                    <!-- game Delete Button -->
+                    <a href="{% url 'game delete' pk=object.pk %}">
+                        <u>Delete</u>
+                        {#                        <img class="bin-img" src="{% static 'images/icon-remove-22.jpg' %}" alt="bin button">#}
+                    </a>
+                </div>
+            {% endif %}
+            <div class="profile-data">
+                <div class="profile_img">
+                    <div class="image">
+                        <!-- game URL Image -->
+                        <img src="{{ object.image }}"
+                             alt="image of {{ object.name }}">
+                    </div>
+                </div>
+
+                <div class="personal">
+
+                    <div class="edit">
+                        <!-- game Name -->
+                        <p><i><b>{{ object.name }}</b></i></p>
+
+                    </div>
+                    <div class="details">
+                        <p><b>Developer:</b>
+                            {% if object.developer_site_link %}
+                                <u><a href="{{ object.developer_site_link }}">{{ object.developer }}</a></u>
+                            {% else %}
+                                {{ object.developer }}
+                            {% endif %}
+                        </p>
+                    </div>
+                    <div class="details">
+                        <p><b>Release Date:</b> {{ object.release_date }}</p>
+                    </div>
+                    <div>
+                        {% if object.synopsis %}
+                            <p>{{ object.synopsis }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="profile_data">
+                    {% if genres %}
+                        <div class="edit">
+                            {{ genres }}
+                        </div>
+                    {% endif %}
+                    {% if devices %}
+                        <div class="edit">
+                            {{ devices }}
+                        </div>
+                    {% endif %}
+                </div>
+                <!-- TODO: Fix visualization of devices and genres -->
+
+
+                {#                    <div class="data">#}
+                {#                        <!-- game Total Photos -->#}
+                {#                        <span>{{ photos_count }}</span>#}
+                {#                        <p>photos</p>#}
+                {#                    </div>#}
+                <!-- TODO: Add total number of posts for game here -->
+            </div>
+        </div>
+    </div>
+    <!-- End game Personal Data Section -->
+
+    {#        <div class="game-posts">#}
+    {##}
+    {#            <!-- IF Photos Start game Photos Post Section -->#}
+    {#            {% if photos_count > 0 %}#}
+    {#                {% for photo in game_tagged_photos %}#}
+    {#                    <!-- Start First game Photo Post -->#}
+    {#                    {% include 'partials/photo-item.html' with photo=photo %}#}
+    {#                    <!-- End  First game Photo Post -->#}
+    {#                {% endfor %}#}
+    {#                <!-- IF Photos End game Photos Post Section -->#}
+    {#            {% else %}#}
+    {#                <!-- IF NOT Photos Show No Post Image -->#}
+    {#                <img class="no-posts" src="{% static 'images/no_posts.png' %}" alt="no posts image">#}
+    {##}
+    {#            {% endif %}#}
+    {##}
+    {#        </div>#}
+    <!-- TODO: Add posts where game is tagged here -->
+{#    </div>#}
+
+{% endblock %}

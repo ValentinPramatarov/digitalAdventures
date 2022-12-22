@@ -16,5 +16,11 @@ class UserCreateForm(auth_forms.UserCreationForm):
 class UserEditForm(forms.ModelForm):
     class Meta:
         model = UserModel
-        fields = ('first_name', 'last_name', 'gender', 'profile_picture', 'description', 'favourite_game',
+        fields = ('first_name', 'last_name', 'profile_picture', 'gender', 'description', 'favourite_game',
                   'main_device', 'favourite_genre')
+
+
+# class UserProfilePictureUploadForm(forms.ModelForm):
+#     class Meta:
+#         model = UserModel
+#         fields = ('profile_picture',)
