@@ -1,4 +1,31 @@
 {% extends 'base/base.html' %}
+{% load static %}
 {% block page_content %}
-    This is where the posts will be, <i>I promise</i>
+        <div class="container">
+            <div class="col-9">
+    {##}
+                <!-- Start Searchbar Form -->
+                <form class="searchbar" method="get" action="{% url 'index' %}">
+                    {{ search_form }}
+                    <button>
+                        <img src="{% static 'images/search.png' %}" height="18" alt="img2">
+                    </button>
+                    {% csrf_token %}
+                </form>
+    <!-- End Searchbar Form -->
+
+    <!-- Start Pet Photos Post Section -->
+    {% for post in posts %}
+        <!-- Start First Pet Photo Post -->
+        {% if not post.private or request.user.is_authenticated %}
+{#            <div style="display: block; margin-left: auto; margin-right: auto; width: 400%">#}
+                {% include 'common/partials/post-item.html' with post=post %}
+{#            </div>#}
+        {% endif %}
+        <!-- End First Pet Photo Post -->
+
+    {% endfor %}
+    {##}
+            </div>
+        </div>
 {% endblock %}

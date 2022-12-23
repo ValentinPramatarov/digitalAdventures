@@ -6,7 +6,7 @@ from django.views import generic as views
 from django.contrib.auth import views as auth_views, get_user_model
 from django.urls import reverse_lazy
 
-from core.Mixins import AccountPermissionCheckMixin
+from core.mixins import AccountPermissionCheckMixin
 from digitalAdventures.accounts.forms import UserCreateForm, UserEditForm
 
 UserModel = get_user_model()
@@ -37,7 +37,7 @@ class UserDetailsView(views.DetailView, LoginRequiredMixin):
 
         context['is_owner'] = self.request.user == self.object
         context['profile_picture'] = self.object.profile_picture or None
-        context['games'] = self.object.game_set.all()
+        context['posts'] = self.object.posts.all()
 
         return context
 

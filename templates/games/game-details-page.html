@@ -3,99 +3,65 @@
 
 {% block page_content %}
     <div class="game-profile">
-        <!-- Start game Personal Data Section -->
+        <!-- Start Pet Personal Data Section -->
         <div class="profile">
-            {% if has_permissions %}
-                <div class="personal">
-                    <a href="{% url 'game edit' pk=object.pk %}">
-                        <u>Edit</u>
-                        {#                        <img class="edit-img" src="{% static 'images/edit-pen-icon-6.jpg' %}" alt="edit button">#}
-                    </a>
-                    <!-- game Delete Button -->
-                    <a href="{% url 'game delete' pk=object.pk %}">
-                        <u>Delete</u>
-                        {#                        <img class="bin-img" src="{% static 'images/icon-remove-22.jpg' %}" alt="bin button">#}
-                    </a>
-                </div>
-            {% endif %}
             <div class="profile-data">
                 <div class="profile_img">
                     <div class="image">
-                        <!-- game URL Image -->
-                        <img src="{{ object.image }}"
-                             alt="image of {{ object.name }}">
+                        <!-- Pet URL Image -->
+                        <img src="/media/{{ object.image }}" alt="image of {{ object.name }}">
                     </div>
                 </div>
-
                 <div class="personal">
-
                     <div class="edit">
-                        <!-- game Name -->
-                        <p><i><b>{{ object.name }}</b></i></p>
-
-                    </div>
-                    <div class="details">
-                        <p><b>Developer:</b>
-                            {% if object.developer_site_link %}
-                                <u><a href="{{ object.developer_site_link }}">{{ object.developer }}</a></u>
-                            {% else %}
-                                {{ object.developer }}
-                            {% endif %}
-                        </p>
-                    </div>
-                    <div class="details">
-                        <p><b>Release Date:</b> {{ object.release_date }}</p>
-                    </div>
-                    <div>
-                        {% if object.synopsis %}
-                            <p>{{ object.synopsis }}</p>
+                        <!-- Pet Name -->
+                        <p>{{ object.name }}</p>
+                        <!-- Pet Edit Button -->
+                        {% if has_permissions %}
+                            <a href="{% url 'game edit' pk=object.pk %}">
+                                <img class="edit-img" src="{% static 'images/edit-pen-icon-6.jpg' %}" alt="edit button">
+                            </a>
+                            <!-- Pet Delete Button -->
+                            <a href="{% url 'genre delete' pk=object.pk %}">
+                                <img class="bin-img" src="{% static 'images/icon-remove-22.jpg' %}" alt="bin button">
+                            </a>
                         {% endif %}
                     </div>
+                    <div class="data">
+                        <p><a href="{{ object.developer_site_link }}">
+                            {{ object.developer }}
+                        </a></p>
+                        <p>{{ object.release_date }}</p>
+{#                        {% for genre in object.genres %}#}
+{#                            <p><a href="{% url 'genre details' pk=genre.pk %}">#}
+{#                                {{ genre.name }}#}
+{#                            </a></p>#}
+{#                        {% endfor %}#}
+                        <p>{{ object.genres }}</p>
+                        <span>{{ posts_count }} posts</span>
+                    </div>
                 </div>
-                <div class="profile_data">
-                    {% if genres %}
-                        <div class="edit">
-                            {{ genres }}
-                        </div>
-                    {% endif %}
-                    {% if devices %}
-                        <div class="edit">
-                            {{ devices }}
-                        </div>
-                    {% endif %}
-                </div>
-                <!-- TODO: Fix visualization of devices and genres -->
-
-
-                {#                    <div class="data">#}
-                {#                        <!-- game Total Photos -->#}
-                {#                        <span>{{ photos_count }}</span>#}
-                {#                        <p>photos</p>#}
-                {#                    </div>#}
-                <!-- TODO: Add total number of posts for game here -->
             </div>
         </div>
-    </div>
-    <!-- End game Personal Data Section -->
+        <!-- End Pet Personal Data Section -->
 
-    {#        <div class="game-posts">#}
-    {##}
-    {#            <!-- IF Photos Start game Photos Post Section -->#}
-    {#            {% if photos_count > 0 %}#}
-    {#                {% for photo in game_tagged_photos %}#}
-    {#                    <!-- Start First game Photo Post -->#}
-    {#                    {% include 'partials/photo-item.html' with photo=photo %}#}
-    {#                    <!-- End  First game Photo Post -->#}
-    {#                {% endfor %}#}
-    {#                <!-- IF Photos End game Photos Post Section -->#}
-    {#            {% else %}#}
-    {#                <!-- IF NOT Photos Show No Post Image -->#}
-    {#                <img class="no-posts" src="{% static 'images/no_posts.png' %}" alt="no posts image">#}
-    {##}
-    {#            {% endif %}#}
-    {##}
-    {#        </div>#}
-    <!-- TODO: Add posts where game is tagged here -->
-{#    </div>#}
+        <div class="game-posts">
+
+            <!-- IF Photos Start Pet Photos Post Section -->
+            {% if posts_count > 0 %}
+                {% for post in posts %}
+                    <!-- Start First Pet Photo Post -->
+                    {% include 'common/partials/post-item.html' with post=post %}
+                    <!-- End  First Pet Photo Post -->
+                {% endfor %}
+                <!-- IF Photos End Pet Photos Post Section -->
+            {% else %}
+                <!-- IF NOT Photos Show No Post Image -->
+                <img class="no-posts" src="{% static 'images/no_posts.png' %}" alt="no posts image">
+
+            {% endif %}
+
+        </div>
+    </div>
 
 {% endblock %}

@@ -1,3 +1,8 @@
 from django.contrib import admin
 
-# Register your models here.
+from digitalAdventures.posts.models import ImagePost
+
+
+@admin.register(ImagePost)
+class PostAdmin(admin.ModelAdmin):
+    pass

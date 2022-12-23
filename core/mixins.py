@@ -25,3 +25,19 @@ class GenreDevicePermissionCheckMixin:
         if not request.user.is_superuser and not request.user.is_staff:
             raise Http404("You have no permissions to modify this game.")
         return super().dispatch(request, *args, **kwargs)
+
+
+class UnauthenticatedAndPostIsPrivateCheckMixin:
+    def dispatch(self, request, *args, **kwargs):
+        obj = self.get_object()
+        if obj.private and not request.user.is_authenticated:
+            raise Http404("You are not the owner of this account.")
+        return super().dispatch(request, *args, **kwargs)
+
+
+class PostAccountPermissionCheckMixin:
+    def dispatch(self, request, *args, **kwargs):
+        obj = self.get_object()
+        if obj.posted_by != request.user and not request.user.is_superuser and not request.user.is_staff:
+            raise Http404("You are not the owner of this account.")
+        return super().dispatch(request, *args, **kwargs)

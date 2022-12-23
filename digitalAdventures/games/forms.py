@@ -21,7 +21,7 @@ class GameAddForm(forms.ModelForm):
     devices = forms.ModelMultipleChoiceField(
         queryset=Device.objects.all(),
         required=False,
-        widget=forms.CheckboxSelectMultiple
+        widget=forms.SelectMultiple
         # widget=forms.SelectMultiple
     )
 
@@ -38,7 +38,7 @@ class GameEditForm(forms.ModelForm):
 
     devices = forms.ModelMultipleChoiceField(
         queryset=Device.objects.all(),
-        widget=forms.CheckboxSelectMultiple,
+        widget=forms.SelectMultiple,
         required=False
     )
     genres = forms.ModelMultipleChoiceField(
@@ -82,5 +82,3 @@ class DeviceEditForm(forms.ModelForm):
         widgets = {
             'release_date': forms.DateInput(attrs={'type': 'date'}),
         }
-
-

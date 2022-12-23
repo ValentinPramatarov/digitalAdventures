@@ -29,7 +29,6 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -40,9 +39,11 @@ INSTALLED_APPS = [
 
     'digitalAdventures.accounts',
     'digitalAdventures.games',
-    'digitalAdventures.common'
+    'digitalAdventures.common',
+    'digitalAdventures.posts',
 
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

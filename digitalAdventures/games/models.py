@@ -1,5 +1,5 @@
 from django.db import models
-
+from core.validators import validate_file_less_than_5mb
 import digitalAdventures.settings
 
 # UserModel is defined this way to escape circular import
@@ -18,10 +18,12 @@ class Game(models.Model):
         verbose_name="Game name"
     )
 
-    image = models.URLField(
+    image = models.ImageField(
+        upload_to='games/',
         null=False,
         blank=False,
-        verbose_name="Game image link"
+        validators=(validate_file_less_than_5mb, ),
+        verbose_name="Game image"
     )
 
     developer = models.CharField(
@@ -102,10 +104,11 @@ class Device(models.Model):
         verbose_name='Device maker'
     )
 
-    image = models.URLField(
+    image = models.ImageField(
+        upload_to='consoles/',
         null=False,
         blank=False,
-        verbose_name="Device image link"
+        validators=(validate_file_less_than_5mb, )
     )
 
     release_date = models.DateField(

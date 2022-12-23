@@ -4,19 +4,10 @@ from django.urls import reverse_lazy
 from django.views import generic as views
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from core.Mixins import GamePermissionCheckMixin, GenreDevicePermissionCheckMixin
+from core.mixins import GamePermissionCheckMixin, GenreDevicePermissionCheckMixin
 from digitalAdventures.games.forms import GameAddForm, GameEditForm, GenreAddForm, GenreEditForm, DeviceAddForm, \
     DeviceEditForm
 from digitalAdventures.games.models import Game, Genre, Device
-
-
-# class AddGameView(LoginRequiredMixin, views.CreateView):
-#     template_name = 'games/game-add-page.html'
-#     form_class = GameAddForm
-#
-#     def form_valid(self, form):
-#         form.instance.added_by = self.request.user
-#         return super().form_valid(form)
 
 @login_required
 def create_game(request):
@@ -24,7 +15,7 @@ def create_game(request):
         form = GameAddForm()
 
     else:
-        form = GameAddForm(request.POST)
+        form = GameAddForm(request.POST, request.FILES)
         if form.is_valid():
             game = form.save(commit=False)
             game.added_by = request.user
@@ -55,9 +46,13 @@ class GameDetailsView(views.DetailView):
         elif self.request.user.is_staff or self.request.user.is_superuser:
             has_permissions = True
 
+        genres = ', '.join([x.name for x in self.object.genres.all()])
+
         context['has_permissions'] = has_permissions
         context['devices'] = self.object.devices.all()
-        context['genres'] = self.object.genres.all()
+        context['genres'] = genres
+        context['posts_count'] = self.object.image_posts.count()
+        context['posts'] = self.object.image_posts.all()
 
         return context
 
@@ -73,25 +68,6 @@ class GameEditView(GamePermissionCheckMixin, views.UpdateView):
         self.object.devices.set(form.cleaned_data['devices'])
         self.object.genres.set(form.cleaned_data['genres'])
         return redirect(self.get_success_url())
-
-
-# def game_edit_view(request, pk):
-#     obj = Game.objects.filter(pk=pk).get()
-#
-#     if request.method == "GET":
-#         form = GameEditForm(instance=obj)
-#     else:
-#         form = GameEditForm(request.POST)
-#         if form.is_valid():
-#             form.save()
-#             return redirect('game details', pk=pk)
-#
-#     context = {
-#         'form': form,
-#         'pk': pk,
-#     }
-#
-#     return render(request, 'games/game-edit-view.html', context)
 
 
 class GameDeleteView(GamePermissionCheckMixin, views.DeleteView):

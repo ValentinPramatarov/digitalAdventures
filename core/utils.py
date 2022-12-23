@@ -7,3 +7,7 @@ def double_collection_max_str_len(collection):
                 max_len = len(el)
 
     return max_len
+
+
+def get_post_url(request, pk):
+    return request.META['HTTP_REFERER'] + f'#post-{pk}'

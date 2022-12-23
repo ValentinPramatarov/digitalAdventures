@@ -365,7 +365,7 @@ textarea.text::placeholder {
     margin-top: 8px;
     font-weight: lighter;
     cursor: default;
-    color: rgb(163, 163, 163);
+    color: rgb(31, 27, 27);
     font-size: 12px;
     text-transform: uppercase;
 }

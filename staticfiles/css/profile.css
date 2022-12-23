@@ -75,7 +75,7 @@
 }
 
 .personal .data {
-    display: flex;
+    display: block;
     margin-bottom: 15px;
 }
 
